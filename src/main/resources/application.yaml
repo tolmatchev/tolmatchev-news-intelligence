@@ -1,3 +1,13 @@
 spring:
   application:
     name: news-intelligence
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:postgres}?currentSchema=tni
+    username: ${DB_LOGIN:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  flyway:
+    schemas: tni
+    user: ${DB_LOGIN:postgres}
+    password: ${DB_PASSWORD:postgres}
+    locations: classpath:db/migration
