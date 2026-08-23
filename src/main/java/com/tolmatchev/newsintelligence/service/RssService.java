@@ -1,6 +1,8 @@
 package com.tolmatchev.newsintelligence.service;
 
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.tolmatchev.newsintelligence.dto.RssResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import com.tolmatchev.newsintelligence.dto.ChannelDto;
@@ -11,21 +13,26 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class RssService {
     private final RestClient restClient;
+    private final XmlMapper xmlMapper;
 
+    public RssService(RestClient restClient) {
+        this.restClient = restClient;
+        this.xmlMapper = XmlMapper.builder()
+                .build();
+    }
 
     @Scheduled(fixedRate = 60000)
     public void scheduledFetchRss() {
-        String data = fetchRss();
+        RssResponse data = fetchRss();
         log.info("Received RSS data: {}", data);
     }
 
-    public String fetchRss() {
-        return restClient.get()
+    public RssResponse fetchRss() {
+        String xml = restClient.get()
                 .uri("https://tass.ru/rss/v2.xml")
-                .header("Accept", "*/*")
+                .header("Accept", "application/rss+xml")
                 .header("User-Agent", "curl/8.7.1")
                 .header("Accept-Encoding", "gzip")
                 .exchange((request, response) -> {
@@ -37,7 +44,12 @@ public class RssService {
                             StandardCharsets.UTF_8
                     );
                 });
-    }
 
-    private record RssResponse(ChannelDto channel) {}
+        try {
+            return xmlMapper.readValue(xml, RssResponse.class);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException("Failed to parse TASS RSS", e);
+        }
+
+    }
 }
