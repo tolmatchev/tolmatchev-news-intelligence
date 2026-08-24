@@ -15,8 +15,10 @@ public class NewsMapper {
         return News.builder()
                 .title(dto.title())
                 .link(dto.link())
-                .publicationDate(null)
-                .category(dto.categories() != null ? 
+                .publicationDate(dto.pubDate() != null ?
+                        dto.pubDate().toLocalDate().atTime(12, 0) : null)
+
+                .category(dto.categories() != null ?
                         dto.categories().toString() : null)
                 .build();
     }

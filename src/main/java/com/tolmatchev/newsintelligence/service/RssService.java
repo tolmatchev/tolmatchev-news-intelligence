@@ -2,6 +2,7 @@ package com.tolmatchev.newsintelligence.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tolmatchev.newsintelligence.dto.RssResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,7 +20,7 @@ public class RssService {
 
     public RssService(RestClient restClient) {
         this.restClient = restClient;
-        this.xmlMapper = XmlMapper.builder()
+        this.xmlMapper = XmlMapper.builder().addModule(new JavaTimeModule())
                 .build();
     }
 
@@ -33,7 +34,6 @@ public class RssService {
         String xml = restClient.get()
                 .uri("https://tass.ru/rss/v2.xml")
                 .header("Accept", "application/rss+xml")
-                .header("User-Agent", "curl/8.7.1")
                 .header("Accept-Encoding", "gzip")
                 .exchange((request, response) -> {
                     log.info("Status: {}", response.getStatusCode());
