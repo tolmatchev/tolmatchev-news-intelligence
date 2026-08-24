@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tolmatchev.newsintelligence.dto.RssResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import com.tolmatchev.newsintelligence.dto.ChannelDto;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,11 @@ import java.nio.charset.StandardCharsets;
 public class RssService {
     private final RestClient restClient;
     private final XmlMapper xmlMapper;
+    private final String rssUrl;
 
-    public RssService(RestClient restClient) {
+    public RssService(RestClient restClient, @Value("${rss.url}") String rssUrl) {
         this.restClient = restClient;
+        this.rssUrl = rssUrl;
         this.xmlMapper = XmlMapper.builder().addModule(new JavaTimeModule())
                 .build();
     }
@@ -32,7 +35,7 @@ public class RssService {
 
     public RssResponse fetchRss() {
         String xml = restClient.get()
-                .uri("https://tass.ru/rss/v2.xml")
+                .uri(rssUrl)
                 .header("Accept", "application/rss+xml")
                 .header("Accept-Encoding", "gzip")
                 .exchange((request, response) -> {

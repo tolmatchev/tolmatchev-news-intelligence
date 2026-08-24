@@ -1,0 +1,72 @@
+<rss
+	xmlns:atom="https://www.w3.org/2005/Atom" version="2.0">
+	<channel>
+		<title>ТАСС</title>
+		<description>ИНФОРМАЦИОННОЕ АГЕНТСТВО РОССИИ ТАСС</description>
+		<language>ru-ru</language>
+		<link>
+			<![CDATA[ https://tass.ru ]]>
+		</link>
+		<copyright>ТАСС</copyright>
+		<image>
+			<url>
+				<![CDATA[ https://tass.ru/i/rss/logo.png ]]>
+			</url>
+			<title>ТАСС</title>
+			<link>
+				<![CDATA[ https://tass.ru ]]>
+			</link>
+		</image>
+		<atom:link href="https://tass.ru/rss/v2.xml" rel="self" type="application/rss+xml"/>
+		<item>
+			<title>"Галатасарай" разгромил "Эрзурумспор" в матче чемпионата Турции по футболу</title>
+			<link>
+				<![CDATA[ https://tass.ru/sport/28033733 ]]>
+			</link>
+			<guid>
+				<![CDATA[ https://tass.ru/sport/28033733 ]]>
+			</guid>
+			<pubDate>Fri, 21 Aug 2026 23:23:19 +0300</pubDate>
+			<description>Встреча завершилась со счетом 4:0 в пользу действующих чемпионов страны</description>
+			<category>Спорт</category>
+			<category>Футбол</category>
+			<category>Мировой футбол</category>
+		</item>
+		<item>
+			<title>Зеленский назначил судей антикоррупционного суда ради финансирования от ЕС</title>
+			<link>
+				<![CDATA[ https://tass.ru/mezhdunarodnaya-panorama/28033731 ]]>
+			</link>
+			<guid>
+				<![CDATA[ https://tass.ru/mezhdunarodnaya-panorama/28033731 ]]>
+			</guid>
+			<pubDate>Fri, 21 Aug 2026 23:19:43 +0300</pubDate>
+			<description>Это является одним из необходимых условий для получения Киевом около €300 млн </description>
+			<category>В мире</category>
+		</item>
+		<item>
+			<title>TikTok заплатит США $400 млн после достижения соглашения в суде</title>
+			<link>
+				<![CDATA[ https://tass.ru/ekonomika/28033725 ]]>
+			</link>
+			<guid>
+				<![CDATA[ https://tass.ru/ekonomika/28033725 ]]>
+			</guid>
+			<pubDate>Fri, 21 Aug 2026 23:14:51 +0300</pubDate>
+			<description>Речь идет о процессе от 2014 года о нарушении закона о конфиденциальности детей в интернете</description>
+			<category>Экономика и бизнес</category>
+		</item>
+		<item>
+			<title>В аэропортах Сочи и Геленджика ввели ограничения</title>
+			<link>
+				<![CDATA[ https://tass.ru/obschestvo/28033727 ]]>
+			</link>
+			<guid>
+				<![CDATA[ https://tass.ru/obschestvo/28033727 ]]>
+			</guid>
+			<pubDate>Fri, 21 Aug 2026 23:14:28 +0300</pubDate>
+			<description>Они необходимы для обеспечения безопасности полетов</description>
+			<category>Общество</category>
+		</item>
+	</channel>
+</rss>

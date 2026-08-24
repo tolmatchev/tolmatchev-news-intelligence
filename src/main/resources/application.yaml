@@ -11,3 +11,6 @@ spring:
     user: ${DB_LOGIN:postgres}
     password: ${DB_PASSWORD:postgres}
     locations: classpath:db/migration
+
+rss:
+  url: https://tass.ru/rss/v2.xml
