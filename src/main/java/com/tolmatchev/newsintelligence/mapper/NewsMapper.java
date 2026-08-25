@@ -1,7 +1,7 @@
 package com.tolmatchev.newsintelligence.mapper;
 
-import com.tolmatchev.newsintelligence.dto.ItemDto;
-import com.tolmatchev.newsintelligence.dto.RssResponse;
+import com.tolmatchev.newsintelligence.dto.TassItemDto;
+import com.tolmatchev.newsintelligence.dto.TassRssResponse;
 import com.tolmatchev.newsintelligence.entity.News;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import java.util.Set;
 @Component
 public class NewsMapper {
 
-    private News toEntity(ItemDto dto) {
+    private News toEntity(TassItemDto dto) {
         if (dto == null) {
             return null;
         }
@@ -25,7 +25,7 @@ public class NewsMapper {
                 .build();
     }
 
-    public List<News> toNews(RssResponse data, Set<String> existingLinks) {
+    public List<News> toNews(TassRssResponse data, Set<String> existingLinks) {
         return data.channel().items().stream()
                 .filter(x -> x.link() != null && !x.link().isBlank() && !existingLinks.contains(x.link()))
                 .map(this::toEntity)

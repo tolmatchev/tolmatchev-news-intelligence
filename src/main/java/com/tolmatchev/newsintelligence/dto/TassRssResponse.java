@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record RssResponse(
+public record TassRssResponse(
         @JacksonXmlProperty(localName = "channel")
-        ChannelDto channel
+        TassChannelDto channel
 ) {}
