@@ -4,5 +4,6 @@ CREATE TABLE news (
     title VARCHAR(500) NOT NULL,
     category VARCHAR(255),
     publication_date TIMESTAMP NOT NULL,
-    link VARCHAR(2048) NOT NULL
+    link VARCHAR(2048) NOT NULL,
+    CONSTRAINT news_link_unique UNIQUE (link)
 );

@@ -3,17 +3,19 @@ package com.tolmatchev.newsintelligence.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.tolmatchev.newsintelligence.dto.ItemDto;
 import com.tolmatchev.newsintelligence.dto.RssResponse;
 import com.tolmatchev.newsintelligence.entity.News;
 import com.tolmatchev.newsintelligence.mapper.NewsMapper;
 import com.tolmatchev.newsintelligence.repository.NewsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,13 +28,15 @@ public class RssService {
     private final String rssUrl;
     private final NewsRepository newsRepository;
     private final NewsMapper newsMapper;
+    private final ValidationService validationService;
 
     public RssService(RestClient restClient, @Value("${rss.url}") String rssUrl,
-                      NewsRepository newsRepository, NewsMapper newsMapper) {
+                      NewsRepository newsRepository, NewsMapper newsMapper, ValidationService validationService) {
         this.restClient = restClient;
         this.rssUrl = rssUrl;
         this.newsRepository = newsRepository;
         this.newsMapper = newsMapper;
+        this.validationService = validationService;
         this.xmlMapper = XmlMapper.builder().addModule(new JavaTimeModule())
                 .build();
     }
@@ -45,32 +49,12 @@ public class RssService {
     }
 
     public void saveNewNews(RssResponse data) {
-        if (!isDataValid(data)) return;
-        Set<String> existingLinks = getExistingLinks();
-        List<News> savedNews = mapToSavedNews(data, existingLinks);
+        if (!validationService.isTassRssValid(data)) return;
+        //Set<String> existingLinks = new HashSet<>(newsRepository.findLatestLinksBySite("tass.ru", PageRequest.of(0, 100)));
+        Set<String> existingLinks = newsRepository.findExistingLinks(data.channel().items().stream().map(ItemDto::link).toList());
+        List<News> savedNews = newsMapper.toNews(data, existingLinks);
         newsRepository.saveAll(savedNews);
         log.info("Saved {} new news items", savedNews.size());
-    }
-
-    private List<News> mapToSavedNews(RssResponse data, Set<String> existingLinks) {
-        return data.channel().items().stream()
-                .filter(x -> x.link() != null && !x.link().isBlank() && !existingLinks.contains(x.link()))
-                .map(newsMapper::toEntity)
-                .toList();
-    }
-
-    private Set<String> getExistingLinks() {
-        return newsRepository.findTop100ByOrderByIdDesc().stream()
-                .map(News::getLink)
-                .collect(Collectors.toSet());
-    }
-
-    private static boolean isDataValid(RssResponse data) {
-        if (data == null || data.channel() == null || data.channel().items() == null) {
-            log.info("No RSS items to process");
-            return false;
-        }
-        return true;
     }
 
     public RssResponse fetchRss() {
