@@ -15,11 +15,9 @@ public class NewsMapper {
         return News.builder()
                 .title(dto.title())
                 .link(dto.link())
-                .publicationDate(dto.pubDate() != null ?
-                        dto.pubDate().toLocalDate().atTime(12, 0) : null)
-
-                .category(dto.categories() != null ?
-                        dto.categories().toString() : null)
+                .site("tass.ru")
+                .publicationDate(dto.pubDate() != null ? dto.pubDate().toLocalDateTime() : null)
+                .category(dto.categories() != null ? dto.categories().toString() : null)
                 .build();
     }
 }

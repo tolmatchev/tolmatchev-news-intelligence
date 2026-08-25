@@ -5,11 +5,14 @@ import com.tolmatchev.newsintelligence.config.RestClientConfig;
 import com.tolmatchev.newsintelligence.dto.ChannelDto;
 import com.tolmatchev.newsintelligence.dto.ItemDto;
 import com.tolmatchev.newsintelligence.dto.RssResponse;
+import com.tolmatchev.newsintelligence.mapper.NewsMapper;
+import com.tolmatchev.newsintelligence.repository.NewsRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
@@ -22,11 +25,14 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = {RssService.class, RestClientConfig.class})
+@SpringBootTest(classes = {RssService.class, RestClientConfig.class, NewsMapper.class})
 class RssServiceIntegrationTest {
 
     @RegisterExtension
     static WireMockExtension wireMock = WireMockExtension.newInstance().build();
+
+    @MockitoBean
+    private NewsRepository newsRepository;
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
