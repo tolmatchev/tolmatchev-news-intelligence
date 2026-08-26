@@ -8,8 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 public class NewsIntelligenceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NewsIntelligenceApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(NewsIntelligenceApplication.class, args);
+  }
 }

@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ValidationService {
 
-    public boolean isTassRssValid(TassRssResponse data) {
-        if (data == null || data.channel() == null || data.channel().items() == null) {
-            log.info("No RSS items to process");
-            return false;
-        }
-        return true;
+  public boolean isTassRssValid(TassRssResponse data) {
+    if (data == null || data.channel() == null || data.channel().items() == null) {
+      log.info("No RSS items to process");
+      return false;
     }
+    return true;
+  }
 }
