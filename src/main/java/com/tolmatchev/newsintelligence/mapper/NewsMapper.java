@@ -12,17 +12,15 @@ import org.springframework.stereotype.Component;
 public class NewsMapper {
 
   private News toEntity(final TassItemDto dto) {
-    if (dto == null) {
-      return null;
-    }
-
-    return News.builder()
-        .title(dto.title())
-        .link(dto.link())
-        .site("tass.ru")
-        .publicationDate(dto.pubDate() != null ? dto.pubDate().toLocalDateTime() : null)
-        .category(dto.categories() != null ? dto.categories().toString() : null)
-        .build();
+    return dto == null
+        ? new News()
+        : News.builder()
+            .title(dto.title())
+            .link(dto.link())
+            .site("tass.ru")
+            .publicationDate(dto.pubDate() != null ? dto.pubDate().toLocalDateTime() : null)
+            .category(dto.categories() != null ? dto.categories().toString() : null)
+            .build();
   }
 
   /**

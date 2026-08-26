@@ -15,7 +15,7 @@ class ValidationServiceTest {
     TassRssResponse data =
         new TassRssResponse(new com.tolmatchev.newsintelligence.dto.TassChannelDto(List.of()));
     boolean isValid = validationService.isTassRssValid(data);
-    assertThat(isValid).isTrue();
+    assertThat(isValid).isFalse();
   }
 
   @Test

@@ -16,10 +16,16 @@ public class ValidationService {
    * @return true if the response is valid and contains items, false otherwise.
    */
   public boolean isTassRssValid(final TassRssResponse data) {
-    if (data == null || data.channel() == null || data.channel().items() == null) {
+    final boolean valid =
+        data != null
+            && data.channel() != null
+            && data.channel().items() != null
+            && !data.channel().items().isEmpty();
+
+    if (!valid) {
       log.info("No RSS items to process");
-      return false;
     }
-    return true;
+
+    return valid;
   }
 }

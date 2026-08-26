@@ -40,19 +40,14 @@ public class RssService {
   }
 
   /** Periodically fetches and schedules RSS feed retrieval. */
-  @Scheduled(fixedRate = 60000)
+  @Scheduled(fixedRate = 60_000)
   public void scheduledFetchRss() {
     final TassRssResponse tassRss = rssClient.fetchTassRss();
     log.info("Received RSS TASS: {}", tassRss);
     saveNewNews(tassRss);
   }
 
-  /**
-   * Saves news items from the RSS feed if they are valid and new.
-   *
-   * @param data the response from the RSS feed.
-   */
-  public void saveNewNews(final TassRssResponse data) {
+  private void saveNewNews(final TassRssResponse data) {
     if (!validationService.isTassRssValid(data)) {
       return;
     }
