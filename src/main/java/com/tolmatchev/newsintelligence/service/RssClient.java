@@ -24,7 +24,7 @@ public class RssClient {
    * @param restClient the RestClient for making HTTP requests.
    * @param rssUrl the URL of the TASS RSS feed.
    */
-  public RssClient(RestClient restClient, @Value("${rss.url}") String rssUrl) {
+  public RssClient(final RestClient restClient, @Value("${rss.url}") final String rssUrl) {
     this.restClient = restClient;
     this.rssUrl = rssUrl;
     this.xmlMapper = XmlMapper.builder().addModule(new JavaTimeModule()).build();
@@ -36,7 +36,7 @@ public class RssClient {
    * @return the parsed TassRssResponse object.
    */
   public TassRssResponse fetchTassRss() {
-    String xml =
+    final String xml =
         restClient
             .get()
             .uri(rssUrl)

@@ -29,10 +29,10 @@ public class RssService {
    * @param validationService the service for validating RSS data.
    */
   public RssService(
-      RssClient rssClient,
-      NewsRepository newsRepository,
-      NewsMapper newsMapper,
-      ValidationService validationService) {
+      final RssClient rssClient,
+      final NewsRepository newsRepository,
+      final NewsMapper newsMapper,
+      final ValidationService validationService) {
     this.rssClient = rssClient;
     this.newsRepository = newsRepository;
     this.newsMapper = newsMapper;
@@ -42,7 +42,7 @@ public class RssService {
   /** Periodically fetches and schedules RSS feed retrieval. */
   @Scheduled(fixedRate = 60000)
   public void scheduledFetchRss() {
-    TassRssResponse tassRss = rssClient.fetchTassRss();
+    final TassRssResponse tassRss = rssClient.fetchTassRss();
     log.info("Received RSS TASS: {}", tassRss);
     saveNewNews(tassRss);
   }
@@ -52,14 +52,14 @@ public class RssService {
    *
    * @param data the response from the RSS feed.
    */
-  public void saveNewNews(TassRssResponse data) {
+  public void saveNewNews(final TassRssResponse data) {
     if (!validationService.isTassRssValid(data)) {
       return;
     }
-    Set<String> existingLinks =
+    final Set<String> existingLinks =
         newsRepository.findExistingLinks(
             data.channel().items().stream().map(TassItemDto::link).toList());
-    List<News> savedNews = newsMapper.toNews(data, existingLinks);
+    final List<News> savedNews = newsMapper.toNews(data, existingLinks);
     newsRepository.saveAll(savedNews);
     log.info("Saved {} new news items", savedNews.size());
   }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class NewsMapper {
 
-  private News toEntity(TassItemDto dto) {
+  private News toEntity(final TassItemDto dto) {
     if (dto == null) {
       return null;
     }
@@ -32,7 +32,7 @@ public class NewsMapper {
    * @param existingLinks the set of links already present in the database.
    * @return a list of new News entities.
    */
-  public List<News> toNews(TassRssResponse data, Set<String> existingLinks) {
+  public List<News> toNews(final TassRssResponse data, final Set<String> existingLinks) {
     return data.channel().items().stream()
         .filter(x -> x.link() != null && !x.link().isBlank() && !existingLinks.contains(x.link()))
         .map(this::toEntity)

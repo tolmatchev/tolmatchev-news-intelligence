@@ -15,7 +15,7 @@ public class ValidationService {
    * @param data the response to validate.
    * @return true if the response is valid and contains items, false otherwise.
    */
-  public boolean isTassRssValid(TassRssResponse data) {
+  public boolean isTassRssValid(final TassRssResponse data) {
     if (data == null || data.channel() == null || data.channel().items() == null) {
       log.info("No RSS items to process");
       return false;

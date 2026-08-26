@@ -25,7 +25,7 @@ public class RestClientConfig {
    * @return the RestClient.
    */
   @Bean
-  public RestClient restClient(RestClient.Builder builder) {
+  public RestClient restClient(final RestClient.Builder builder) {
     return builder.build();
   }
 }
