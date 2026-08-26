@@ -25,3 +25,9 @@
 ## Environment Settings
 - Data source and Flyway settings are in `src/main/resources/application.yaml`.
 - Environment variables like `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_LOGIN`, and `DB_PASSWORD` are preferred for deployment.
+
+## Lint and Format
+- Checkstyle: `./mvnw checkstyle:check`
+- PMD: `./mvnw pmd:check`
+- Spotless check: `./mvnw spotless:check`
+- Spotless apply (fix formatting): `./mvnw spotless:apply`
