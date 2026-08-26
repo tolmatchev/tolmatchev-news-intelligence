@@ -7,6 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+/** Data transfer object for a TASS RSS item. */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record TassItemDto(
     @JacksonXmlProperty(localName = "title") String title,

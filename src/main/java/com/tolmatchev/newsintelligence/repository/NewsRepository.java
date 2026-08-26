@@ -8,14 +8,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+/** Repository for news entities. */
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
 
+  /**
+   * Finds existing links in the repository.
+   *
+   * @param links The collection of links to check.
+   * @return A set of existing links.
+   */
   @Query(
       """
         select n.link
         from News n
         where n.link in :links
-    """)
+      """)
   Set<String> findExistingLinks(@Param("links") Collection<String> links);
 }

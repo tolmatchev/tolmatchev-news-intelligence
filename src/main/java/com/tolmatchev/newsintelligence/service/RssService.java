@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+/** Service for fetching and processing TASS RSS feed. */
 @Slf4j
 @Service
 public class RssService {
@@ -19,6 +20,14 @@ public class RssService {
   private final NewsMapper newsMapper;
   private final ValidationService validationService;
 
+  /**
+   * Constructs a new RssService with necessary dependencies.
+   *
+   * @param rssClient the client for fetching RSS feed.
+   * @param newsRepository the repository for news entities.
+   * @param newsMapper the mapper for news objects.
+   * @param validationService the service for validating RSS data.
+   */
   public RssService(
       RssClient rssClient,
       NewsRepository newsRepository,
@@ -30,6 +39,7 @@ public class RssService {
     this.validationService = validationService;
   }
 
+  /** Periodically fetches and schedules RSS feed retrieval. */
   @Scheduled(fixedRate = 60000)
   public void scheduledFetchRss() {
     TassRssResponse tassRss = rssClient.fetchTassRss();
@@ -37,8 +47,15 @@ public class RssService {
     saveNewNews(tassRss);
   }
 
+  /**
+   * Saves news items from the RSS feed if they are valid and new.
+   *
+   * @param data the response from the RSS feed.
+   */
   public void saveNewNews(TassRssResponse data) {
-    if (!validationService.isTassRssValid(data)) return;
+    if (!validationService.isTassRssValid(data)) {
+      return;
+    }
     Set<String> existingLinks =
         newsRepository.findExistingLinks(
             data.channel().items().stream().map(TassItemDto::link).toList());

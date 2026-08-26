@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.stereotype.Component;
 
+/** Mapper for converting between TASS RSS data and News entities. */
 @Component
 public class NewsMapper {
 
@@ -24,6 +25,13 @@ public class NewsMapper {
         .build();
   }
 
+  /**
+   * Converts RSS data to a list of News entities, filtering out existing links.
+   *
+   * @param data the response data containing the channel items.
+   * @param existingLinks the set of links already present in the database.
+   * @return a list of new News entities.
+   */
   public List<News> toNews(TassRssResponse data, Set<String> existingLinks) {
     return data.channel().items().stream()
         .filter(x -> x.link() != null && !x.link().isBlank() && !existingLinks.contains(x.link()))

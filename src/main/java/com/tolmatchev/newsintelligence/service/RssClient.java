@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+/** Client for fetching TASS RSS feed content. */
 @Slf4j
 @Service
 public class RssClient {
@@ -17,12 +18,23 @@ public class RssClient {
   private final RestClient restClient;
   private final String rssUrl;
 
+  /**
+   * Constructs a new RssClient with necessary dependencies.
+   *
+   * @param restClient the RestClient for making HTTP requests.
+   * @param rssUrl the URL of the TASS RSS feed.
+   */
   public RssClient(RestClient restClient, @Value("${rss.url}") String rssUrl) {
     this.restClient = restClient;
     this.rssUrl = rssUrl;
     this.xmlMapper = XmlMapper.builder().addModule(new JavaTimeModule()).build();
   }
 
+  /**
+   * Fetches the TASS RSS feed content.
+   *
+   * @return the parsed TassRssResponse object.
+   */
   public TassRssResponse fetchTassRss() {
     String xml =
         restClient
